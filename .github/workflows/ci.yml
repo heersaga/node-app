@@ -24,20 +24,16 @@ jobs:
     - name: Introduce a deliberate failure
       run: exit 1
 
-    - name: Capture logs and send to Gemini AI on failure
+    - name: Capture logs and analyze with Gemini AI on failure
       if: failure()
       run: |
         echo "Pipeline failed, capturing logs..."
-        # Combine logs from previous steps
         logs=$(cat install.log test.log)
+        echo "$logs" > logs.txt
+
+        python3 -m pip install --upgrade pip
+        pip install -q -U google-generativeai
         
-        # Send logs to Gemini AI for analysis
-        curl -X POST https://gemini-ai-endpoint.com/analyze \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer ${{ secrets.GEMINI_API_TOKEN }}" \
-          -d '{
-                "logs": "'"$logs"'",
-                "repo": "'"${{ github.repository }}"'",
-                "commit": "'"${{ github.sha }}"'",
-                "branch": "'"${{ github.ref }}"'"
-              }'
+        python3 scripts/analyze_logs.py logs.txt
+      env:
+        API_KEY: ${{ secrets.GEMINI_API_KEY }}
