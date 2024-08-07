@@ -19,7 +19,7 @@ else:
     logs = sys.stdin.read()
 
 # Generate analysis
-response = model.generate_content(f"Analyze the following logs for issues and tell why pipeline failed:\n\n{logs}")
+response = model.generate_content(f"Analyze the following logs for issues and what was the command that made pipeline failed:\n\n{logs}")
 
 # Print or handle the response
 print(response.text)
