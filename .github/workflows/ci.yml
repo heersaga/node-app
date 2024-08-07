@@ -21,6 +21,9 @@ jobs:
     - name: Run tests
       run: npm test | tee test.log
 
+    - name: Introduce a deliberate failure
+      run: exit 1
+
     - name: Capture logs and send to Gemini AI on failure
       if: failure()
       run: |
