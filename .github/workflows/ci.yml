@@ -22,7 +22,7 @@ jobs:
       run: npm test | tee test.log
 
     - name: Introduce a deliberate failure
-      run: exit 1
+      run: npm install h
 
     - name: Capture logs and analyze with Gemini AI on failure
       if: failure()
