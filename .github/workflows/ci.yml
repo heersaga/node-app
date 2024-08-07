@@ -16,7 +16,25 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      run: npm install
+      run: npm install | tee install.log
 
     - name: Run tests
-      run: npm test
+      run: npm test | tee test.log
+
+    - name: Capture logs and send to Gemini AI on failure
+      if: failure()
+      run: |
+        echo "Pipeline failed, capturing logs..."
+        # Combine logs from previous steps
+        logs=$(cat install.log test.log)
+        
+        # Send logs to Gemini AI for analysis
+        curl -X POST https://gemini-ai-endpoint.com/analyze \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${{ secrets.GEMINI_API_TOKEN }}" \
+          -d '{
+                "logs": "'"$logs"'",
+                "repo": "'"${{ github.repository }}"'",
+                "commit": "'"${{ github.sha }}"'",
+                "branch": "'"${{ github.ref }}"'"
+              }'
