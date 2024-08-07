@@ -1,6 +1,6 @@
 // index.test.js
-// const request = require('supertest');
-// const express = require('express');
+const request = require('supertest');
+const express = require('express');
 
 const app = express();
 app.get('/', (req, res) => {
