@@ -5,7 +5,7 @@ import sys
 import json
 
 # Configure API key
-genai.configure(api_key=os.environ["API_KEY"])
+genai.configure(api_key="AIzaSyCQPJji0ojWd-UuWmwYeF0XL1vsS7kdiYE")
 
 # Initialize the model
 model = genai.GenerativeModel('gemini-1.5-flash')
