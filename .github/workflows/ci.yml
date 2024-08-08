@@ -20,9 +20,12 @@ jobs:
 
     - name: Run tests
       run: npm test | tee test.log
+  
+    - name: Debug Environment Variables
+      run: env
 
-    - name: Introduce a deliberate failure
-      run: exit 1
+    # - name: Introduce a deliberate failure
+    #   run: exit 1
 
     - name: Capture logs and analyze with Gemini AI on failure
       if: failure()
@@ -37,6 +40,5 @@ jobs:
         pip install -q -U google-generativeai
         
         python3 scripts/analyze_logs.py logs.txt
-        
-    - name: Debug Environment Variables
-      run: env
+
+   
