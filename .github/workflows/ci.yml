@@ -37,4 +37,6 @@ jobs:
         pip install -q -U google-generativeai
         
         python3 scripts/analyze_logs.py logs.txt
-      
+        
+    - name: Debug Environment Variables
+      run: env
