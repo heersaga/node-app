@@ -5,7 +5,12 @@ import sys
 import json
 
 # Configure API key
-genai.configure(api_key="AIzaSyCQPJji0ojWd-UuWmwYeF0XL1vsS7kdiYE")
+#genai.configure(api_key="AIzaSyCQPJji0ojWd-UuWmwYeF0")
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("API key not found. Please set the GEMINI_API_KEY environment variable.")
+
+genai.configure(api_key=api_key)
 
 # Initialize the model
 model = genai.GenerativeModel('gemini-1.5-flash')
