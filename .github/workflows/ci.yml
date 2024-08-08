@@ -29,8 +29,6 @@ jobs:
 
     - name: Capture logs and analyze with Gemini AI on failure
       if: failure()
-      env:
-        API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: |
         echo "Pipeline failed, capturing logs..."
         logs=$(cat install.log test.log)
@@ -40,5 +38,7 @@ jobs:
         pip install -q -U google-generativeai
         
         python3 scripts/analyze_logs.py logs.txt
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
    
